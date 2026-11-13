@@ -1,50 +1,31 @@
-<!-- This README file is going to be the one displayed on the Grafana.com website for your plugin. Uncomment and replace the content here before publishing.
+# Owner Operator Portal
 
-Remove any remaining comments before publishing as these may be displayed on Grafana.com -->
+An app for owner/operators of a restaurant portfolio: every restaurant at a glance, its network
+status, and what needs attention, inside Grafana.
 
-# OOP
+![Portfolio](https://raw.githubusercontent.com/mcd-gnpo-org/OOP/main/src/img/screenshots/portfolio.png)
 
-<!-- To help maximize the impact of your README and improve usability for users, we propose the following loose structure:
+## Features
 
-**BEFORE YOU BEGIN**
-- Ensure all links are absolute URLs so that they will work when the README is displayed within Grafana and Grafana.com
-- Be inspired ✨
-  - [grafana-polystat-panel](https://github.com/grafana/grafana-polystat-panel)
-  - [volkovlabs-variable-panel](https://github.com/volkovlabs/volkovlabs-variable-panel)
-
-**ADD SOME BADGES**
-
-Badges convey useful information at a glance for users whether in the Catalog or viewing the source code. You can use the generator on [Shields.io](https://shields.io/badges/dynamic-json-badge) together with the Grafana.com API
-to create dynamic badges that update automatically when you publish a new version to the marketplace.
-
-- For the URL parameter use `https://grafana.com/api/plugins/your-plugin-id`.
-- Example queries:
-  - Downloads: `$.downloads`
-  - Catalog Version: `$.version`
-  - Grafana Dependency: `$.grafanaDependency`
-  - Signature Type: `$.versionSignatureType`
-- Optionally, for the logo parameter use `grafana`.
-
-Full example: ![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?logo=grafana&query=$.version&url=https://grafana.com/api/plugins/grafana-polystat-panel&label=Marketplace&prefix=v&color=F47A20)
-
-Consider other [badges](https://shields.io/badges) as you feel appropriate for your project.
-
-## Overview / Introduction
-Provide one or more paragraphs as an introduction to your plugin to help users understand why they should use it.
-
-Consider including screenshots:
-- in [plugin.json](https://grafana.com/developers/plugin-tools/reference/plugin-json#info) include them as relative links.
-- in the README ensure they are absolute URLs.
+- **Portfolio**: counts of healthy, degraded, down and unknown restaurants, with each restaurant's
+  internet, device and routing status as cards, a table or a map.
+- **Search** by restaurant or location, keeping the chosen view.
+- **Priority attention**: the restaurants with open issues, newest first.
+- **Restaurant pages**: a restaurant's network layout with live status, and its insights.
+- Follows Grafana's light and dark theme.
 
 ## Requirements
-List any requirements or dependencies they may need to run the plugin.
 
-## Getting Started
-Provide a quick start on how to configure and use the plugin.
+- Grafana 13.2.0 or later.
+- For the map view: a Google Maps JavaScript API key, restricted to your Grafana's URL.
 
-## Documentation
-If your project has dedicated documentation available for users, provide links here. For help in following Grafana's style recommendations for technical documentation, refer to our [Writer's Toolkit](https://grafana.com/docs/writers-toolkit/).
+## Getting started
 
-## Contributing
-Do you want folks to contribute to the plugin or provide feedback through specific means? If so, tell them how!
--->
+1. Install the app from the plugin catalog and enable it under **Administration → Plugins and
+   data → Plugins → Owner Operator Portal**.
+2. On the app's **Configuration** tab, enter the Google Maps API key under **Map settings** and save.
+3. Open the app from **More apps → Owner Operator Portal**.
+
+## Support
+
+Report problems at https://github.com/mcd-gnpo-org/OOP/issues.

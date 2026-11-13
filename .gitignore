@@ -53,3 +53,7 @@ ci/
 
 # Signed release packages (npm run package:private)
 release/
+
+# Plugin zips and the folder they are made from (upload them, don't commit them)
+*.zip
+/mcd-oop-app/
