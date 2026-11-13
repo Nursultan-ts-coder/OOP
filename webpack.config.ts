@@ -35,11 +35,11 @@ const readEnvVariable = (name: string) =>
  * sets `import.meta.env.BASE_URL` to the plugin's public path): the key saved on the app's
  * configuration page (src/portal-config.ts) wins. Development builds fall back to
  * `VITE_GOOGLE_MAPS_API_KEY` from the env files; production builds (the released plugin, public in
- * the catalog) never bundle a key, only one passed explicitly in the environment.
+ * the catalog) never bundle a key, even one exported in the shell.
  */
 const portalEnv = (production: boolean) => ({
   'import.meta.env.VITE_GOOGLE_MAPS_API_KEY': `((window.__OPERATOR_PORTAL_CONFIG__ && window.__OPERATOR_PORTAL_CONFIG__.googleMapsApiKey) || ${JSON.stringify(
-    production ? (process.env.VITE_GOOGLE_MAPS_API_KEY ?? '') : readEnvVariable('VITE_GOOGLE_MAPS_API_KEY')
+    production ? '' : readEnvVariable('VITE_GOOGLE_MAPS_API_KEY')
   )})`,
 });
 
