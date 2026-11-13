@@ -50,3 +50,6 @@ ci/
 # Local env files (the Google Maps key)
 .env
 .env.*
+
+# Signed release packages (npm run package:private)
+release/

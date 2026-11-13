@@ -27,7 +27,9 @@
     "grafana:stop": "brew services stop grafana",
     "grafana:restart": "brew services restart grafana",
     "grafana:open": "open http://localhost:3000/a/mcd-oop-app",
-    "grafana:logs": "tail -f /opt/homebrew/var/log/grafana/grafana.log"
+    "grafana:logs": "tail -f /opt/homebrew/var/log/grafana/grafana.log",
+    "sign:private": "sign-plugin --distDir release/mcd-oop-app --rootUrls https://mcdobservability.grafana.net",
+    "package:private": "npm run build:all && rm -rf release && mkdir release && cp -R dist release/mcd-oop-app && npm run sign:private && cd release && zip -qr mcd-oop-app-$npm_package_version.zip mcd-oop-app && shasum mcd-oop-app-$npm_package_version.zip && echo Ready: release/mcd-oop-app-$npm_package_version.zip"
   },
   "author": "Mcd",
   "license": "Apache-2.0",
