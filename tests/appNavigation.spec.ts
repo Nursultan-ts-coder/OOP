@@ -1,33 +1,26 @@
 import { test, expect } from './fixtures';
-import { ROUTES } from '../src/constants';
 
-test.describe('navigating app', () => {
-  test('page Hello World should render successfully', async ({ gotoPage, page }) => {
-    await gotoPage(`/${ROUTES.HelloWorld}`);
-    await expect(page.getByText('Hello world panel')).toBeVisible();
+test.describe('navigating the portal', () => {
+  test('the portfolio renders as the app home', async ({ gotoPage, page }) => {
+    await gotoPage('');
+    await expect(page.getByTestId('portfolio-summary')).toBeVisible();
+    await expect(page.getByTestId('card-store-4023')).toBeVisible();
   });
 
-  test('page With Tabs should render successfully', async ({ gotoPage, page }) => {
-    await gotoPage(`/${ROUTES.WithTabs}`);
-    await expect(page.getByText('This scene showcases a basic tabs functionality.')).toBeVisible();
+  test('a restaurant page renders and links back to the portfolio', async ({ gotoPage, page }) => {
+    await gotoPage('/restaurant/4023');
+    await expect(page.getByText('Store network layout')).toBeVisible();
+
+    await page.getByRole('link', { name: 'Portfolio' }).first().click();
+    await expect(page.getByTestId('portfolio-summary')).toBeVisible();
   });
 
-  test('page Home should support an id parameter', async ({ gotoPage, page }) => {
-    await gotoPage(`/${ROUTES.Home}`);
-    await expect(
-      page.getByText(
-        'This scene showcases a basic scene functionality, including query runner, variable and a custom scene object.'
-      )
-    ).toBeVisible();
-  });
-
-  test('page With Drilldown should render sucessfully', async ({ gotoPage, page }) => {
-    // wait for page to successfully render
-    await gotoPage(`/${ROUTES.WithDrilldown}`);
-    await expect(
-      page.getByText(
-        'This scene showcases a basic drilldown functionality. Interact with room to see room details scene.'
-      )
-    ).toBeVisible();
+  test('search filters the table and keeps the view', async ({ gotoPage, page }) => {
+    await gotoPage('');
+    await page.getByRole('tab', { name: 'Table' }).click();
+    await page.getByRole('combobox', { name: 'Search restaurants' }).fill('aurora');
+    const table = page.getByRole('table');
+    await expect(table.getByRole('link', { name: 'Store #4044' })).toBeVisible();
+    await expect(table.getByRole('link', { name: 'Store #4023' })).toHaveCount(0);
   });
 });

@@ -1,3 +1,15 @@
 {
-  "extends": "./.config/tsconfig.json"
+  "extends": "./.config/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      // The portal's React code (src/portal) imports itself as `@/…`, as in the standalone app.
+      "@/*": ["src/portal/*"],
+      "*": ["src/*"]
+    },
+    // The portal's files use the automatic JSX runtime (no `import React`); see webpack.config.ts.
+    "jsx": "react-jsx",
+    "types": ["jest", "node", "google.maps"]
+  },
+  "include": ["src", ".config/types"]
 }

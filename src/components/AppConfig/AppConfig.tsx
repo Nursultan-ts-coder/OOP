@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, SyntheticEvent } from 'react';
 import { Button, Field, Input, useStyles2, FieldSet, SecretInput } from '@grafana/ui';
 import { PluginConfigPageProps, AppPluginMeta, PluginMeta, GrafanaTheme2 } from '@grafana/data';
 import { getBackendSrv, locationService } from '@grafana/runtime';
@@ -6,10 +6,9 @@ import { css } from '@emotion/css';
 import { testIds } from '../testIds';
 import { lastValueFrom } from 'rxjs';
 
-type JsonData = {
-  apiUrl?: string;
-  isApiKeySet?: boolean;
-};
+import type { PortalSettings } from '../../constants';
+
+type JsonData = PortalSettings;
 
 type State = {
   // The URL to reach our custom API.
@@ -32,6 +31,18 @@ const AppConfig = ({ plugin }: AppConfigProps) => {
     apiKey: '',
     isApiKeySet: Boolean(jsonData?.isApiKeySet),
   });
+
+  const [googleMapsApiKey, setGoogleMapsApiKey] = useState(jsonData?.googleMapsApiKey ?? '');
+
+  // The map's key is saved on its own, keeping the API settings as they are.
+  const onSubmitMap = (event: SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    updatePluginAndReload(plugin.meta.id, {
+      enabled,
+      pinned,
+      jsonData: { ...jsonData, googleMapsApiKey: googleMapsApiKey.trim() },
+    });
+  };
 
   const isSubmitDisabled = Boolean(!state.apiUrl || (!state.isApiKeySet && !state.apiKey));
 
@@ -61,6 +72,7 @@ const AppConfig = ({ plugin }: AppConfigProps) => {
       enabled,
       pinned,
       jsonData: {
+        ...jsonData,
         apiUrl: state.apiUrl,
         isApiKeySet: true,
       },
@@ -75,42 +87,65 @@ const AppConfig = ({ plugin }: AppConfigProps) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <FieldSet label="API Settings" className={s.marginTopXl}>
-        {/* API Key */}
-        <Field label="API Key" description="A secret key for authenticating to our custom API">
-          <SecretInput
-            width={60}
-            data-testid={testIds.appConfig.apiKey}
-            id="api-key"
-            value={state?.apiKey}
-            isConfigured={state.isApiKeySet}
-            placeholder={'Your secret API key'}
-            onChange={onChangeApiKey}
-            onReset={onResetApiKey}
-          />
-        </Field>
-
-        {/* API Url */}
-        <Field label="API Url" description="" className={s.marginTop}>
-          <Input
-            width={60}
-            id="api-url"
-            data-testid={testIds.appConfig.apiUrl}
-            label={`API Url`}
-            value={state?.apiUrl}
-            placeholder={`E.g.: http://mywebsite.com/api/v1`}
-            onChange={onChangeApiUrl}
-          />
-        </Field>
-
-        <div className={s.marginTop}>
-          <Button type="submit" data-testid={testIds.appConfig.submit} disabled={isSubmitDisabled}>
-            Save API settings
+    <>
+      <form onSubmit={onSubmitMap}>
+        <FieldSet label="Map settings">
+          <Field
+            label="Google Maps API key"
+            description="A browser key for the portfolio map. Browsers receive it, so restrict it to this Grafana's URL in Google Cloud. Without it the map view shows a notice."
+          >
+            <Input
+              width={60}
+              id="google-maps-api-key"
+              data-testid={testIds.appConfig.googleMapsApiKey}
+              value={googleMapsApiKey}
+              placeholder="AIza…"
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setGoogleMapsApiKey(event.target.value)}
+            />
+          </Field>
+          <Button type="submit" data-testid={testIds.appConfig.submitMap}>
+            Save map settings
           </Button>
-        </div>
-      </FieldSet>
-    </form>
+        </FieldSet>
+      </form>
+
+      <form onSubmit={onSubmit}>
+        <FieldSet label="API Settings" className={s.marginTopXl}>
+          {/* API Key */}
+          <Field label="API Key" description="A secret key for authenticating to our custom API">
+            <SecretInput
+              width={60}
+              data-testid={testIds.appConfig.apiKey}
+              id="api-key"
+              value={state?.apiKey}
+              isConfigured={state.isApiKeySet}
+              placeholder={'Your secret API key'}
+              onChange={onChangeApiKey}
+              onReset={onResetApiKey}
+            />
+          </Field>
+
+          {/* API Url */}
+          <Field label="API Url" description="" className={s.marginTop}>
+            <Input
+              width={60}
+              id="api-url"
+              data-testid={testIds.appConfig.apiUrl}
+              label={`API Url`}
+              value={state?.apiUrl}
+              placeholder={`E.g.: http://mywebsite.com/api/v1`}
+              onChange={onChangeApiUrl}
+            />
+          </Field>
+
+          <div className={s.marginTop}>
+            <Button type="submit" data-testid={testIds.appConfig.submit} disabled={isSubmitDisabled}>
+              Save API settings
+            </Button>
+          </div>
+        </FieldSet>
+      </form>
+    </>
   );
 };
 

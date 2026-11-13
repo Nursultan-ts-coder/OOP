@@ -6,6 +6,8 @@ apps:
     org_name: 'MCD'
     disabled: false
     jsonData:
+      # The browser key for the portfolio map; leave it empty to see the map's notice instead.
+      googleMapsApiKey: ''
       apiUrl: http://default-url.com
       isApiKeySet: true
     secureJsonData:

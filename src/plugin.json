@@ -1,13 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "app",
-  "name": "OOP",
+  "name": "Owner Operator Portal",
   "id": "mcd-oop-app",
   "backend": true,
   "executable": "gpx_oop",
   "info": {
-    "keywords": ["app"],
-    "description": "",
+    "keywords": ["app", "restaurants", "network", "portfolio", "operations"],
+    "description": "Owner Operator Portal: every restaurant of an owner/operator, its network status and what needs attention.",
     "author": {
       "name": "Mcd"
     },
@@ -15,38 +15,40 @@
       "small": "img/logo.svg",
       "large": "img/logo.svg"
     },
-    "screenshots": [],
+    "screenshots": [
+      {
+        "name": "Portfolio",
+        "path": "img/screenshots/portfolio.png"
+      }
+    ],
     "version": "%VERSION%",
-    "updated": "%TODAY%"
+    "updated": "%TODAY%",
+    "links": [
+      {
+        "name": "Source code",
+        "url": "https://github.com/OWNER/REPO"
+      },
+      {
+        "name": "Issues",
+        "url": "https://github.com/OWNER/REPO/issues"
+      }
+    ]
   },
   "includes": [
     {
       "type": "page",
-      "name": "Home",
-      "path": "/a/%PLUGIN_ID%/home",
+      "name": "Portfolio",
+      "path": "/a/%PLUGIN_ID%",
       "addToNav": true,
       "defaultNav": true
     },
     {
       "type": "page",
-      "name": "Page with tabs",
-      "path": "/a/%PLUGIN_ID%/page-with-tabs",
-      "addToNav": true,
-      "defaultNav": false
-    },
-    {
-      "type": "page",
-      "name": "Page with drilldown",
-      "path": "/a/%PLUGIN_ID%/page-with-drilldown",
-      "addToNav": true,
-      "defaultNav": false
-    },
-    {
-      "type": "page",
-      "name": "Hello world",
-      "path": "/a/%PLUGIN_ID%/hello-world",
-      "addToNav": true,
-      "defaultNav": false
+      "icon": "cog",
+      "name": "Configuration",
+      "path": "/plugins/%PLUGIN_ID%",
+      "role": "Admin",
+      "addToNav": true
     }
   ],
   "dependencies": {

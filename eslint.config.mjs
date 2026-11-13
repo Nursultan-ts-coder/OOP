@@ -33,7 +33,16 @@ export default defineConfig([
       'playwright/.auth/',
       '**/.idea',
       '**/.eslintcache',
+      // A copy of the standalone portal's code (npm run sync:portal), linted there with its own rules.
+      'src/portal/',
     ],
   },
   ...baseConfig,
+  {
+    // The automatic JSX runtime (webpack.config.ts, jest.config.js): no `import React` needed.
+    rules: {
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
+    },
+  },
 ]);

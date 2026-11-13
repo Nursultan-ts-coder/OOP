@@ -1,9 +1,10 @@
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { AppPlugin } from '@grafana/data';
 import { initPluginTranslations } from '@grafana/i18n';
 import { loadResources } from '@grafana/scenes';
 import { LoadingPlaceholder } from '@grafana/ui';
 import type { AppConfigProps } from './components/AppConfig/AppConfig';
+import type { PortalSettings } from './constants';
 import pluginJson from 'plugin.json';
 
 await initPluginTranslations(pluginJson.id, [loadResources]);
@@ -17,7 +18,7 @@ const AppConfig = (props: AppConfigProps) => (
   </Suspense>
 );
 
-export const plugin = new AppPlugin<{}>().setRootPage(App).addConfigPage({
+export const plugin = new AppPlugin<PortalSettings>().setRootPage(App).addConfigPage({
   title: 'Configuration',
   icon: 'cog',
   body: AppConfig,

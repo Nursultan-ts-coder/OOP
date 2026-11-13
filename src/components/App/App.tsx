@@ -1,49 +1,34 @@
-import React from 'react';
-import { SceneApp, useSceneApp } from '@grafana/scenes';
-import { AppRootProps } from '@grafana/data';
-import { config } from '@grafana/runtime';
-import { Alert } from '@grafana/ui';
-import { DATASOURCE_REF } from '../../constants';
+import { AppRootProps, PageLayoutType } from '@grafana/data';
+import { PluginPage } from '@grafana/runtime';
+import { lazy, Suspense } from 'react';
+
+import { configurePortalBasePath } from '@/features/operator-portal';
+
+import { PLUGIN_BASE_URL, type PortalSettings } from '../../constants';
+import { applyPortalSettings } from '../../portal-config';
 import { PluginPropsContext } from '../../utils/utils.plugin';
-import { helloWorldPage } from '../../pages/HelloWorld/helloWorldPage';
-import { homePage } from '../../pages/Home/homePage';
-import { withDrilldownPage } from '../../pages/WithDrilldown/withDrilldownPage';
-import { withTabsPage } from '../../pages/WithTabs/withTabsPage';
+import { PortalProviders } from './PortalProviders';
 
-function getSceneApp() {
-  return new SceneApp({
-    pages: [helloWorldPage, homePage, withDrilldownPage, withTabsPage],
-    urlSyncOptions: {
-      updateUrlOnInit: true,
-      createBrowserHistorySteps: true,
-    },
-  });
-}
+// The portal's links point under the plugin's path, set before any of its pages render.
+configurePortalBasePath(PLUGIN_BASE_URL);
 
-function AppWithScenes() {
-  const scene = useSceneApp(getSceneApp);
+/** The portal's own routes (portfolio, restaurant overview and insights), from src/portal. */
+const OperatorPortalPage = lazy(() => import('@/pages/operator-portal'));
 
-  return (
-    <>
-      {!config.datasources[DATASOURCE_REF.uid] && (
-        <Alert title={`Missing ${DATASOURCE_REF.uid} datasource`}>
-          These demos depend on <b>testdata</b> datasource: <code>{JSON.stringify(DATASOURCE_REF)}</code>. See{' '}
-          <a href="https://github.com/grafana/grafana/tree/main/devenv#set-up-your-development-environment">
-            https://github.com/grafana/grafana/tree/main/devenv#set-up-your-development-environment
-          </a>{' '}
-          for more details.
-        </Alert>
-      )}
+/** The app's root page: Grafana's page frame (without its header) around the Owner Operator Portal. */
+function App(props: AppRootProps<PortalSettings>) {
+  applyPortalSettings(props.meta.jsonData);
 
-      <scene.Component model={scene} />
-    </>
-  );
-}
-
-function App(props: AppRootProps) {
   return (
     <PluginPropsContext.Provider value={props}>
-      <AppWithScenes />
+      {/* Canvas: no plugin title/description header (from plugin.json); the portal has its own. */}
+      <PluginPage layout={PageLayoutType.Canvas}>
+        <PortalProviders>
+          <Suspense fallback={null}>
+            <OperatorPortalPage />
+          </Suspense>
+        </PortalProviders>
+      </PluginPage>
     </PluginPropsContext.Provider>
   );
 }

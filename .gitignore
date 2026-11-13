@@ -46,3 +46,7 @@ ci/
 .idea
 
 .eslintcache
+
+# Local env files (the Google Maps key)
+.env
+.env.*
