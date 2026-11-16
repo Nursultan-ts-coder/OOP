@@ -3,7 +3,7 @@
 An app for owner/operators of a restaurant portfolio: every restaurant at a glance, its network
 status, and what needs attention, inside Grafana.
 
-![Portfolio](https://raw.githubusercontent.com/mcd-gnpo-org/OOP/main/src/img/screenshots/portfolio.png)
+![Portfolio](https://raw.githubusercontent.com/Nursultan-ts-coder/OOP/main/src/img/screenshots/portfolio.png)
 
 ## Features
 
@@ -28,6 +28,6 @@ status, and what needs attention, inside Grafana.
 
 ## Support
 
-Report problems at https://github.com/mcd-gnpo-org/OOP/issues.
+Report problems at https://github.com/Nursultan-ts-coder/OOP/issues.
 
-Developer notes: [DEVELOPMENT.md](https://github.com/mcd-gnpo-org/OOP/blob/main/DEVELOPMENT.md).
+Developer notes: [DEVELOPMENT.md](https://github.com/Nursultan-ts-coder/OOP/blob/main/DEVELOPMENT.md).
