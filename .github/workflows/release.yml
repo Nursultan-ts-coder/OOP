@@ -23,6 +23,8 @@ jobs:
 
       - uses: grafana/plugin-actions/build-plugin@build-plugin/v1.2.0
         with:
+          # Matches .nvmrc; the webpack config needs Node 22+ (fs/promises glob).
+          node-version: '24'
           # Signs the plugin once the repository secret GRAFANA_ACCESS_POLICY_TOKEN exists. Add it only
           # after Grafana approves the plugin: public signing is refused before that.
           policy_token: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
