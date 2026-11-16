@@ -95,7 +95,7 @@
     "@deck.gl/core": "9.4.1",
     "@deck.gl/google-maps": "9.4.1",
     "@deck.gl/layers": "9.4.1",
-    "@emotion/css": "11.10.6",
+    "@emotion/css": "11.13.5",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
     "@grafana/data": "13.2.4",
