@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3
+
+- Fill in the license copyright notice.
+
 ## 1.0.2
 
 - Upgrade the Grafana plugin SDK.
